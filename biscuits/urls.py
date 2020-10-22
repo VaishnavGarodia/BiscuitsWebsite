@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from biscuitsrk import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('logout/', views.logoutuser, name='logoutuser'),
+    path('login/', views.loginuser, name='loginuser'),
+    path('signup/', views.signupuser, name='signupuser'),
+    path('questions/', views.questions, name='questions'),
+    path('leaderboard/', views.leaderboard, name='leaderboard'),
+    path('home/', views.home, name='home'),
 ]
