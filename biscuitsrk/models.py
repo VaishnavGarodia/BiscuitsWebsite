@@ -15,6 +15,11 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+class Resp(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    
+    # def __str__(self):
+    #     return self.user.username+" "+self
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

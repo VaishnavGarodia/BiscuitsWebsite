@@ -17,6 +17,7 @@ def logoutuser(request):
     if request.method=='POST':
         logout(request)
         return redirect('home')
+        
 def loginuser(request):
     if request.method=='GET':
         return render(request, 'biscuitsrk/login.html', {'form':AuthenticationForm()})

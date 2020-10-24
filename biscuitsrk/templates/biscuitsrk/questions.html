@@ -3,4 +3,12 @@
 <h1 class="text-center mt-5" id="level">Level : {{ question.level }}</h1>
 <h2 class="text-center mt-5" id="title">{{ question.title }}</h2>
 <h3 class="text-center mt-5" id="full">{{ question.description }}</h3>
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="response">Your Answer</label>
+        <input type="text" name="resp" class="form-control" id="response">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
 {% endblock %}
