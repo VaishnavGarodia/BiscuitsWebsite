@@ -1,0 +1,35 @@
+{% extends "biscuitsrk/base.html" %}
+
+{% block content %}
+<div class="col-md-12">
+  <h2>Standings</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Username</th>
+        <th>Level</th>
+      </tr>
+    </thead>
+{% for User in queryset %}
+
+    <tbody>
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td data-toggle="tooltip" title="{{User.user.username}}"><span>{{User.user.username}}</span></td>
+        <td>{{User.currentlevel}}</td>
+      </tr>
+  </tbody>
+
+{%endfor%}
+  </table>
+</div>
+
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
+
+
+{% endblock %}

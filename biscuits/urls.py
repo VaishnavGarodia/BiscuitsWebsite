@@ -25,4 +25,5 @@ urlpatterns = [
     path('questions/', views.questions, name='questions'),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
     path('home/', views.home, name='home'),
+    path('waiting/', views.waiting, name='waiting'),
 ]

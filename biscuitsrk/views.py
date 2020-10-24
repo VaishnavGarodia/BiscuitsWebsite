@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .models import QuestionsModel, Profile
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -10,14 +9,19 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def questions(request):
     u = get_object_or_404(Profile,user=request.user)
-    question = get_object_or_404(QuestionsModel, level=u.currentlevel)
-    return render(request, 'biscuitsrk/questions.html',{'question':question})
+    if request.method=='GET':
+        question = get_object_or_404(QuestionsModel, level=u.currentlevel)
+        return render(request, 'biscuitsrk/questions.html',{'question':question})
+    if request.POST :
+        u.mostrecentanswer = request.POST['answer']
+        u.save()
+        return redirect('waiting')
 @login_required
 def logoutuser(request):
     if request.method=='POST':
         logout(request)
         return redirect('home')
-        
+
 def loginuser(request):
     if request.method=='GET':
         return render(request, 'biscuitsrk/login.html', {'form':AuthenticationForm()})
@@ -44,4 +48,13 @@ def signupuser(request):
 def home(request):
     return render(request, 'biscuitsrk/home.html')
 def leaderboard(request):
-    pass
+	"""
+	Returns the leadboard, sorted first with level (desc) then time (asc)
+	"""
+	queryset = Profile.objects.order_by('-currentlevel','currentleveltime')
+	context = {
+		'queryset' : queryset,
+	}
+	return render(request, 'biscuitsrk/leaderboard.html', context)
+def waiting(request):
+    return render(request, 'biscuitsrk/waiting.html')
