@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
+from django.utils import timezone
 # Create your views here.
 @login_required
 def questions(request):
@@ -13,9 +15,15 @@ def questions(request):
         question = get_object_or_404(QuestionsModel, level=u.currentlevel)
         return render(request, 'biscuitsrk/questions.html',{'question':question})
     if request.POST :
-        u.mostrecentanswer = request.POST['answer']
-        u.save()
-        return redirect('waiting')
+        if len(request.POST['answer']) == 0:
+            question = get_object_or_404(QuestionsModel, level=u.currentlevel)
+            return render(request, 'biscuitsrk/questions.html',{'question':question, 'error':'Answer Box Cannot be empty'})
+        else:
+            u.mostrecentanswer = request.POST['answer']
+            u.lastanswertime = timezone.now()
+            u.checked = False
+            u.save()
+            return redirect('waiting')
 @login_required
 def logoutuser(request):
     if request.method=='POST':
@@ -56,5 +64,24 @@ def leaderboard(request):
 		'queryset' : queryset,
 	}
 	return render(request, 'biscuitsrk/leaderboard.html', context)
+@user_passes_test(lambda u: u.is_superuser)
+def checkanswers(request):
+    queryset = Profile.objects.order_by('lastanswertime')
+    return render(request, 'biscuitsrk/checkanswers.html',{'queryset':queryset})
 def waiting(request):
-    return render(request, 'biscuitsrk/waiting.html')
+    u = get_object_or_404(Profile,user=request.user)
+    if u.checked == False:
+        return render(request, 'biscuitsrk/waiting.html')
+    else:
+        if u.result == False:
+            response = u.response
+            return render(request, 'biscuitsrk/incorrect.html', {'response':response})
+        else:
+            level=u.currentlevel
+            u.currentlevel = level + 1
+            u.checked = False
+            u.result = False
+            u.response = ''
+            u.currentleveltime = timezone.now()
+            u.save()
+            return redirect('questions')

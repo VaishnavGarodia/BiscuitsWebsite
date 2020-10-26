@@ -17,9 +17,12 @@ class Profile(models.Model):
     currentleveltime= models.DateTimeField(default=timezone.now)
     is_banned = models.BooleanField(default = False)
     mostrecentanswer = models.TextField(null=True)
+    lastanswertime = models.DateTimeField(default=timezone.now)
+    checked = models.BooleanField(default=False)
+    result = models.BooleanField(default=False)
+    response = models.TextField(null=True, blank=True)
     def __str__(self):
         return self.user.username
-
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
