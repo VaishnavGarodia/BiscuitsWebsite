@@ -66,8 +66,8 @@ def leaderboard(request):
 	return render(request, 'biscuitsrk/leaderboard.html', context)
 @user_passes_test(lambda u: u.is_superuser)
 def checkanswers(request):
-    queryset = Profile.objects.order_by('lastanswertime')
-    return render(request, 'biscuitsrk/checkanswers.html',{'queryset':queryset})
+    queryset = Profile.objects.order_by('-lastanswertime')
+    return render(request, 'biscuitsrk/checkanswers.html',{'answers':queryset})
 def waiting(request):
     u = get_object_or_404(Profile,user=request.user)
     if u.checked == False:
@@ -77,11 +77,30 @@ def waiting(request):
             response = u.response
             return render(request, 'biscuitsrk/incorrect.html', {'response':response})
         else:
-            level=u.currentlevel
-            u.currentlevel = level + 1
             u.checked = False
             u.result = False
             u.response = ''
+            return redirect('questions')
+@user_passes_test(lambda u: u.is_superuser)
+def fullanswer(request, id):
+    u = get_object_or_404(Profile, pk=id)
+    if request.method == 'GET':
+        return render(request, 'biscuitsrk/fullanswer.html',{'u':u})
+    else:
+        if request.POST['check']=='correct':
+            level=u.currentlevel
+            u.result = True
+            u.checked = True
+            u.response = ''
+            u.currentlevel = level + 1
             u.currentleveltime = timezone.now()
             u.save()
-            return redirect('questions')
+            return redirect('checkanswers')
+        elif request.POST['check']=='incorrect':
+            u.result = False
+            u.checked = True
+            u.response = request.POST['response']
+            u.save()
+            return redirect('checkanswers')
+        elif request.POST['check']=='correcting':
+            return redirect('checkanswers')

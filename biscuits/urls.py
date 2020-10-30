@@ -24,6 +24,9 @@ urlpatterns = [
     path('signup/', views.signupuser, name='signupuser'),
     path('questions/', views.questions, name='questions'),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
+    path('', views.home, name='homee'),
     path('home/', views.home, name='home'),
     path('waiting/', views.waiting, name='waiting'),
+    path('checkanswers/', views.checkanswers, name='checkanswers'),
+    path('fullanswer/<int:id>', views.fullanswer, name='fullanswer'),
 ]

@@ -1,0 +1,21 @@
+{% extends "biscuitsrk/base.html" %}
+{% block content %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            {% if answer %}
+                 <h1>{{ answer.count }} Answers{{ answer.count|pluralize }}</h1>
+            {% else %}
+                           <h1>Answers</h1>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            <div class="list-group">
+                {% for answer in answers %}
+                    <a href="{% url 'fullanswer' answer.id %}" class="list-group-item list-group-item-action{% if answer.checked %} list-group-item-success {% else %} list-group-item-danger {% endif %}"><b>{{ answer.user.username }}</b>{{ answer.currentlevel}}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

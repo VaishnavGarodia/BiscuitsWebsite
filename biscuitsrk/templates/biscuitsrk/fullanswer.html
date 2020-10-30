@@ -1,0 +1,21 @@
+{% extends "biscuitsrk/base.html" %}
+{% block content %}
+{{ error }}
+<h1 class="text-center mt-5" id="level">Level : {{ u.currentlevel }}</h1>
+<h2 class="text-center mt-5" id="User">Name : {{ u.user.username }}</h2>
+<h3 class="text-center mt-5" id="answer">Answer : {{ u.mostrecentanswer }}</h3>
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="response">Your Response(Only if Incorrect)</label>
+        <input type="text" name="response" class="form-control" id="response">
+    </div>
+    <input type="radio" id="correct" name="check" value="correct">
+        <label for="male">Correct</label><br>
+    <input type="radio" id="incorrect" name="check" value="incorrect">
+        <label for="female">Incorrect</label><br>
+    <input type="radio" id="correcting" name="check" value="correcting" checked>
+        <label for="other">Still Correcting</label>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
