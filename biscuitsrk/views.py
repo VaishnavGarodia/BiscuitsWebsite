@@ -7,13 +7,21 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.utils import timezone
+import re
 # Create your views here.
 @login_required
 def questions(request):
     u = get_object_or_404(Profile,user=request.user)
+    
     if request.method=='GET':
+        if u.answered == True:
+            # print("Path A")
+            # if(u.result)
+            question = get_object_or_404(QuestionsModel, level=u.currentlevel)
+            return render(request, 'biscuitsrk/questionsBlank.html',{'question':question,'u':u})
+        # print("Path B")
         question = get_object_or_404(QuestionsModel, level=u.currentlevel)
-        return render(request, 'biscuitsrk/questions.html',{'question':question})
+        return render(request, 'biscuitsrk/questions.html',{'question':question,'u':u})
     if request.POST :
         if len(request.POST['answer']) == 0:
             question = get_object_or_404(QuestionsModel, level=u.currentlevel)
@@ -22,8 +30,9 @@ def questions(request):
             u.mostrecentanswer = request.POST['answer']
             u.lastanswertime = timezone.now()
             u.checked = False
+            u.answered = True
             u.save()
-            return redirect('waiting')
+            return redirect('questions')
 @login_required
 def logoutuser(request):
     if request.method=='POST':
@@ -43,10 +52,19 @@ def loginuser(request):
 def signupuser(request):
     if request.method=='GET':
         return render(request, 'biscuitsrk/signup.html', {'form':UserCreationForm()})
+    if not re.search(".*#[0-9]{4}$",request.POST["discord"]):
+        return render(request, 'biscuitsrk/signup.html', {'form':UserCreationForm(),'error':'The Discord username is not valid'})
     if request.POST['password1']==request.POST['password2']:
         try:
             user = User.objects.create_user(request.POST['username'],password=request.POST['password1'])
             user.save()
+            u = get_object_or_404(Profile,user=user)
+            print(u)
+            u.institute = request.POST["institute"]
+            u.discord = request.POST["discord"]
+            u.answered = False
+            print(u)
+            u.save()
             login(request, user)
             return redirect('questions')
         except IntegrityError:
@@ -94,11 +112,14 @@ def fullanswer(request, id):
             u.response = ''
             u.currentlevel = level + 1
             u.currentleveltime = timezone.now()
+            u.answered = False
+            u.mostrecentanswer = ""
             u.save()
             return redirect('checkanswers')
         elif request.POST['check']=='incorrect':
             u.result = False
             u.checked = True
+            u.answered = False
             u.response = request.POST['response']
             u.save()
             return redirect('checkanswers')

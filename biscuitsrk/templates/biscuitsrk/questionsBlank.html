@@ -9,18 +9,8 @@
     {% csrf_token %}
     <div class="form-group">
         <label for="response">Your Answer</label>
-        <input type="text" name="answer" class="form-control" id="response">
+        <input type="text" name="answer" class="form-control" id="response" value="{{u.mostrecentanswer}}" disabled>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary" disabled>Submit</button>
 </form>
-{% if u.result == False %}
-<p> Sorry your previous answer was incorrect<br>
-<div class="alert alert-danger" role="alert">
-	Your previous answer:- {{u.mostrecentanswer}}<br>
-{% if u.response != "" %}
-Our response: - {{u.response}}	
-{% endif %}
-
-</div>
-{% endif %}
 {% endblock %}
