@@ -31,6 +31,4 @@ urlpatterns = [
     path('waiting/', views.waiting, name='waiting'),
     path('checkanswers/', views.checkanswers, name='checkanswers'),
     path('fullanswer/<int:id>', views.fullanswer, name='fullanswer'),
-    url(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}),
-    url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
 ]
