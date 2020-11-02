@@ -19,7 +19,7 @@ class Profile(models.Model):
     mostrecentanswer = models.TextField(null=True)
     lastanswertime = models.DateTimeField(default=timezone.now)
     checked = models.BooleanField(default=False)
-    result = models.BooleanField(default=False)
+    result = models.BooleanField(default=True)
     response = models.TextField(null=True, blank=True)
     answered = models.BooleanField(default=False)
     def __str__(self):
