@@ -25,7 +25,7 @@ SECRET_KEY = 'f!gr%vtmrg5*3-t$x%53ghr1mcf&1vq=^bn1488j#gn_9d*y1o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['vaishnavgarodia.herokuapp.com']
 
 
 # Application definition
