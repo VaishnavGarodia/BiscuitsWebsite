@@ -1,1 +1,1 @@
-web: gunicorn biscuitsrk.wsgi --log-file -
+web: gunicorn biscuits.wsgi --log-file -
