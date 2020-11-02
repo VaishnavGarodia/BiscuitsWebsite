@@ -1,7 +1,10 @@
 {% extends "biscuitsrk/base.html" %}
 {% block content %}
 {{ error }}
-
+<br>
+<div class="alert alert-danger" role="alert">
+	We are checking your answer. Please wait and hit refresh in some time. If it has been over 10 minutes and your answer hasn't been checked yet, send us a message on Discord. Thank You!
+</div>
 <h1 class="text-center mt-5" id="level">Level : {{ question.level }}</h1>
 <h2 class="text-center mt-5" id="title">{{ question.title }}</h2>
 <h3 class="text-center mt-5" id="full">{{ question.description }}</h3>
