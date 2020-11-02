@@ -13,6 +13,7 @@ class QuestionsModel(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     currentlevel = models.IntegerField(default=0)
+    discord  = models.CharField(max_length=255, null=True)
     institute = models.CharField(max_length=255, null=True)
     currentleveltime= models.DateTimeField(default=timezone.now)
     is_banned = models.BooleanField(default = False)
@@ -23,7 +24,7 @@ class Profile(models.Model):
     response = models.TextField(null=True, blank=True)
     answered = models.BooleanField(default=False)
     def __str__(self):
-        return self.user.username 
+        return self.user.username
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
