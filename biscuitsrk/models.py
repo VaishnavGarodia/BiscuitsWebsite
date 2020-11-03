@@ -19,7 +19,7 @@ class Profile(models.Model):
     is_banned = models.BooleanField(default = False)
     mostrecentanswer = models.TextField(null=True)
     lastanswertime = models.DateTimeField(default=timezone.now)
-    checked = models.BooleanField(default=False)
+    checked = models.BooleanField(default=True)
     result = models.BooleanField(default=True)
     response = models.TextField(null=True, blank=True)
     answered = models.BooleanField(default=False)
