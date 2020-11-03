@@ -12,7 +12,7 @@ import re
 @login_required
 def questions(request):
     u = get_object_or_404(Profile,user=request.user)
-    
+
     if request.method=='GET':
         if u.answered == True:
             # print("Path A")
@@ -86,19 +86,6 @@ def leaderboard(request):
 def checkanswers(request):
     queryset = Profile.objects.order_by('-lastanswertime')
     return render(request, 'biscuitsrk/checkanswers.html',{'answers':queryset})
-def waiting(request):
-    u = get_object_or_404(Profile,user=request.user)
-    if u.checked == False:
-        return render(request, 'biscuitsrk/waiting.html')
-    else:
-        if u.result == False:
-            response = u.response
-            return render(request, 'biscuitsrk/incorrect.html', {'response':response})
-        else:
-            u.checked = False
-            u.result = False
-            u.response = ''
-            return redirect('questions')
 @user_passes_test(lambda u: u.is_superuser)
 def fullanswer(request, id):
     u = get_object_or_404(Profile, pk=id)
@@ -106,7 +93,7 @@ def fullanswer(request, id):
         return render(request, 'biscuitsrk/fullanswer.html',{'u':u})
     else:
         if request.POST['check']=='correct':
-            level=u.currentlevel
+            level= int(request.POST['level'])
             u.result = True
             u.checked = True
             u.response = ''
