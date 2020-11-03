@@ -20,7 +20,17 @@
 {% if u.response != "" %}
 Our response: - {{u.response}}	
 {% endif %}
-
 </div>
+<table class="table table-striped">
+{% for index in answers %}
+	<tbody>
+      <tr>
+        <td>{{index.0}}</td>
+        <!-- <td data-toggle="tooltip" title="{{User.user.username}}"><span>{{User.user.username}}</span></td> -->
+        <td>{{index.1}}</td>
+      </tr>
+  </tbody>
+{% endfor %}
+</table>
 {% endif %}
 {% endblock %}
