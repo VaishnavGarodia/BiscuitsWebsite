@@ -25,7 +25,7 @@ SECRET_KEY = 'f!gr%vtmrg5*3-t$x%53ghr1mcf&1vq=^bn1488j#gn_9d*y1o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['vaishnavgarodia.herokuapp.com','localhost']
+ALLOWED_HOSTS = ['vaishnavgarodia.herokuapp.com','localhost','*']
 
 
 # Application definition
@@ -73,15 +73,18 @@ WSGI_APPLICATION = 'biscuits.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+# https://docs.djangoproject.com/en/3.1/ref/settings
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'myproject',
+        'USER': 'myprojectuser',
+        'PASSWORD': 'xxxx',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
