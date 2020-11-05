@@ -18,10 +18,10 @@ def questions(request):
             # print("Path A")
             # if(u.result)
             question = get_object_or_404(QuestionsModel, level=u.currentlevel)
-            return render(request, 'biscuitsrk/questionsBlank.html',{'question':question,'u':u,"answers":[u.answer_history.split("\t"),u.response_history.split("\t")],"r":[x for x in range(len(u.response_history.split("\t")))]})
+            return render(request, 'biscuitsrk/questionsBlank.html',{'question':question,'u':u})
         # print("Path B")
         question = get_object_or_404(QuestionsModel, level=u.currentlevel)
-        return render(request, 'biscuitsrk/questions.html',{'question':question,'u':u,"answers":[u.answer_history.split("\t"),u.response_history.split("\t")],"r":[x for x in range(len(u.response_history.split("\t")))]})
+        return render(request, 'biscuitsrk/questions.html',{'question':question,'u':u})
     if request.POST :
         if len(request.POST['answer']) == 0:
             question = get_object_or_404(QuestionsModel, level=u.currentlevel)
@@ -101,8 +101,6 @@ def fullanswer(request, id):
             u.currentleveltime = timezone.now()
             u.answered = False
             u.mostrecentanswer = ""
-            u.answer_history= ""
-            u.response_history = ""
             u.save()
             return redirect('checkanswers')
         elif request.POST['check']=='incorrect':
@@ -110,8 +108,6 @@ def fullanswer(request, id):
             u.checked = True
             u.answered = False
             u.response = request.POST['response']
-            u.answer_history += u.mostrecentanswer+"\t"
-            u.response_history += u.response+"\t"
             u.save()
             return redirect('checkanswers')
         elif request.POST['check']=='correcting':

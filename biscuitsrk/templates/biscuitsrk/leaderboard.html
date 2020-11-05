@@ -12,7 +12,6 @@
       </tr>
     </thead>
 {% for User in queryset %}
-
     <tbody>
       <tr>
         <td>{{forloop.counter}}</td>
@@ -20,7 +19,6 @@
         <td>{{User.currentlevel}}</td>
       </tr>
   </tbody>
-
 {%endfor%}
   </table>
 </div>

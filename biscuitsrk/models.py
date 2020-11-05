@@ -23,8 +23,6 @@ class Profile(models.Model):
     result = models.BooleanField(default=True)
     response = models.TextField(null=True, blank=True)
     answered = models.BooleanField(default=False)
-    answer_history = models.TextField(default="")
-    response_history = models.TextField(default="")
     def __str__(self):
         return self.user.username
 @receiver(post_save, sender=User)
