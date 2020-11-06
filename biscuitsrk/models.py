@@ -12,7 +12,7 @@ class QuestionsModel(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    currentlevel = models.IntegerField(default=0)
+    currentlevel = models.IntegerField(default=1)
     discord  = models.CharField(max_length=255, null=True)
     institute = models.CharField(max_length=255, null=True)
     currentleveltime= models.DateTimeField(default=timezone.now)
