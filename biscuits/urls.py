@@ -21,6 +21,7 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('comingsoon/',views.coming_soon,name="coming_soon"),
     path('logout/', views.logoutuser, name='logoutuser'),
     path('login/', views.loginuser, name='loginuser'),
     path('signup/', views.signupuser, name='signupuser'),

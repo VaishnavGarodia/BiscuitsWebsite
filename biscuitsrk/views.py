@@ -1,3 +1,5 @@
+from datetime import datetime, timezone,timedelta 
+
 from .models import QuestionsModel, Profile
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -9,8 +11,23 @@ from django.contrib.auth.decorators import user_passes_test
 from django.utils import timezone
 import re
 # Create your views here.
+def coming_soon(request):
+	return render(request, 'biscuitsrk/comingson.html')
+def check_coming_soon():
+	now = datetime.utcnow()
+	# now+=timedelta(hours = 5,minutes=30)
+	# dt_string = "16/11/2020 12:30:00"
+	dt = datetime(2020,11,8,1,35) # Year, Month, Date, Hours, Minutes, ## Seconds
+	dt+=timedelta(hours = -5,minutes= -30)
+	print(now,dt)
+	if(now<dt):
+		return True
+	return False
+
 @login_required
 def questions(request):
+    if(check_coming_soon()):
+        return redirect('coming_soon')
     u = get_object_or_404(Profile,user=request.user)
 
     if request.method=='GET':
@@ -35,11 +52,15 @@ def questions(request):
             return redirect('questions')
 @login_required
 def logoutuser(request):
+    if(check_coming_soon()):
+        return redirect('coming_soon')
     if request.method=='POST':
         logout(request)
         return redirect('home')
 
 def loginuser(request):
+    if(check_coming_soon()):
+        return redirect('coming_soon')
     if request.method=='GET':
         return render(request, 'biscuitsrk/login.html', {'form':AuthenticationForm()})
     else:
@@ -50,6 +71,8 @@ def loginuser(request):
             login(request, user)
             return redirect('questions')
 def signupuser(request):
+    if(check_coming_soon()):
+        return redirect('coming_soon')
     if request.method=='GET':
         return render(request, 'biscuitsrk/signup.html', {'form':UserCreationForm()})
     if not re.search(".*#[0-9]{4}$",request.POST["discord"]):
@@ -72,8 +95,12 @@ def signupuser(request):
     else:
             return render(request, 'biscuitsrk/signup.html', {'form':UserCreationForm(),'error':'Both passwords do not match'})
 def home(request):
-    return render(request, 'biscuitsrk/home.html')
+	if(check_coming_soon()):
+		return redirect('coming_soon')
+	return render(request, 'biscuitsrk/home.html')
 def leaderboard(request):
+	if(check_coming_soon()):
+		return redirect('coming_soon')
 	"""
 	Returns the leadboard, sorted first with level (desc) then time (asc)
 	"""
