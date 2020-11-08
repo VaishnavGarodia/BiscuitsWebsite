@@ -1,4 +1,4 @@
-from datetime import datetime, timezone,timedelta 
+from datetime import datetime, timezone,timedelta
 
 from .models import QuestionsModel, Profile
 from django.shortcuts import render, redirect, get_object_or_404
@@ -17,7 +17,7 @@ def check_coming_soon():
 	now = datetime.utcnow()
 	# now+=timedelta(hours = 5,minutes=30)
 	# dt_string = "16/11/2020 12:30:00"
-	dt = datetime(2020,11,8,1,35) # Year, Month, Date, Hours, Minutes, ## Seconds
+	dt = datetime(2020,11,18,00,00) # Year, Month, Date, Hours, Minutes, ## Seconds
 	dt+=timedelta(hours = -5,minutes= -30)
 	print(now,dt)
 	if(now<dt):
@@ -52,15 +52,11 @@ def questions(request):
             return redirect('questions')
 @login_required
 def logoutuser(request):
-    if(check_coming_soon()):
-        return redirect('coming_soon')
     if request.method=='POST':
         logout(request)
         return redirect('home')
 
 def loginuser(request):
-    if(check_coming_soon()):
-        return redirect('coming_soon')
     if request.method=='GET':
         return render(request, 'biscuitsrk/login.html', {'form':AuthenticationForm()})
     else:
@@ -71,8 +67,6 @@ def loginuser(request):
             login(request, user)
             return redirect('questions')
 def signupuser(request):
-    if(check_coming_soon()):
-        return redirect('coming_soon')
     if request.method=='GET':
         return render(request, 'biscuitsrk/signup.html', {'form':UserCreationForm()})
     if not re.search(".*#[0-9]{4}$",request.POST["discord"]):
@@ -95,8 +89,6 @@ def signupuser(request):
     else:
             return render(request, 'biscuitsrk/signup.html', {'form':UserCreationForm(),'error':'Both passwords do not match'})
 def home(request):
-	if(check_coming_soon()):
-		return redirect('coming_soon')
 	return render(request, 'biscuitsrk/home.html')
 def leaderboard(request):
 	if(check_coming_soon()):
