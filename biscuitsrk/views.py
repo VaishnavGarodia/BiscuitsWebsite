@@ -17,7 +17,7 @@ def check_coming_soon():
 	now = datetime.utcnow()
 	# now+=timedelta(hours = 5,minutes=30)
 	# dt_string = "16/11/2020 12:30:00"
-	dt = datetime(2020,11,18,00,00) # Year, Month, Date, Hours, Minutes, ## Seconds
+	dt = datetime(2020,11,17,23,59) # Year, Month, Date, Hours, Minutes, ## Seconds
 	dt+=timedelta(hours = -5,minutes= -30)
 	print(now,dt)
 	if(now<dt):
