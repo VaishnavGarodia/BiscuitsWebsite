@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'f!gr%vtmrg5*3-t$x%53ghr1mcf&1vq=^bn1488j#gn_9d*y1o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['https://biscuitsroboknights.herokuapp.com/','vaishnavgarodia.herokuapp.com','localhost','*']
 
@@ -85,6 +85,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
