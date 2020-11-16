@@ -8,7 +8,7 @@ class QuestionsModel(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     def __str__(self):
-        return self.title
+        return self.level
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -24,7 +24,7 @@ class Profile(models.Model):
     response = models.TextField(null=True, blank=True)
     answered = models.BooleanField(default=False)
     def __str__(self):
-        return self.currentlevel
+        return self.user.username
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
