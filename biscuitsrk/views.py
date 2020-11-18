@@ -28,8 +28,8 @@ def check_coming_soon():
 
 @login_required
 def questions(request):
-	if(check_coming_soon()):
-		return redirect('ended')
+	return redirect('ended')
+	"""
     u = get_object_or_404(Profile,user=request.user)
 
     if request.method=='GET':
@@ -52,6 +52,7 @@ def questions(request):
             u.answered = True
             u.save()
             return redirect('questions')
+	  """
 @login_required
 def logoutuser(request):
     if request.method=='POST':
